@@ -1,6 +1,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include"struct.h"//.c文件中还是必须有.h的头啊，否则不好使
+#include <assert.h>
 void initList(Sqlist* L) {
     L->length = 0;
 }
@@ -328,7 +329,7 @@ void Kruskal(MGraph g, int sum, Road road[]) {
     E = g.e;
     sum = 0;
     for (i = 0; i < N; ++i)  v[i] = i;
-    sort(road, E);   // 对road数组中的E条边按其权值从小到大排序, 假设该函数已定义好
+    //sort(road, E);   // 对road数组中的E条边按其权值从小到大排序, 假设该函数已定义好
     for (i = 0; i < E; ++i) {
         a = getRoot(road[i].a);
         b = getRoot(road[i].b);

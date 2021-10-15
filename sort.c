@@ -1,3 +1,9 @@
+void swap(int*a,int *b)
+{
+    int tmp=*a;
+    *a=*b;
+    *b=tmp;
+}
 void InsertSort(int a[], int n) {
     int i, j;
     int temp;
@@ -62,7 +68,7 @@ void BubbleSort(int arr[], int n) {
 }
 void QuickSort(int arr[], int l, int r) {
     if (l >= r) return;
-    swap(arr[l], arr[rand()%(r-l+1)+l]);
+    swap(&arr[l], &arr[rand()%(r-l+1)+l]);
     int v = arr[l];
 
     // arr[l+1...i) <= v, arr(j...r] >= v
@@ -71,9 +77,9 @@ void QuickSort(int arr[], int l, int r) {
         while (i <= r && arr[i] < v) ++i;
         while (j >= l+1 && arr[j] > v) --j;
         if (i > j) break;
-        swap(arr[i++], arr[j--]);
+        swap(&arr[i++], &arr[j--]);
     }
-    swap(arr[l], arr[j]);
+    swap(&arr[l], &arr[j]);
     int p = j;
     
     QuickSort(arr, l, p-1);
@@ -87,7 +93,7 @@ void __shiftDown(int arr[], int n, int k) {
             ++j;
         }
         if (arr[k] >= arr[j]) break;
-        swap(arr[j], arr[k]);
+        swap(&arr[j], &arr[k]);
         k = j;
     }
 }
@@ -99,7 +105,7 @@ void heapSort3(int arr[], int n) {
     }
 
     for ( i = n-1; i > 0; --i) {
-        swap(arr[0], arr[i]);
+        swap(&arr[0], &arr[i]);
         __shiftDown(arr, i, 0);
     }
 }
