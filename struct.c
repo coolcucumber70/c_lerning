@@ -407,23 +407,46 @@ SBTNode* BSTSearch(SBTNode *bt, int key) {
         return BSTSearch(bt->rchild, key);
     }
 }
-int BSTInsert(SBTNode *bt, int key) {  // 因为bt要改变，所以要用引用型指针
-    if (bt == NULL) {
-        bt = (SBTNode*)malloc(sizeof(SBTNode));  // 创建新结点
-        bt->lchild = bt->rchild = NULL;
-        bt->key = key;
+int BSTInsert(SBTNode **bt, int key) {  // 因为bt要改变，所以要用引用型指针
+    if (*bt == NULL) {
+        *bt = (SBTNode*)malloc(sizeof(SBTNode));  // 创建新结点
+        (*bt)->lchild = (*bt)->rchild = NULL;
+        (*bt)->key = key;
         return 1;
     } else {
-        if (key == bt->key) return 0;   // 关键字已经存在于树中
-        else if (key < bt->key) return BSTInsert(bt->lchild, key);
-        else return BSTInsert(bt->rchild, key);
+        if (key == (*bt)->key) return 0;   // 关键字已经存在于树中
+        else if (key < (*bt)->key) return BSTInsert(&((*bt)->lchild), key);
+        else return BSTInsert(&((*bt)->rchild), key);
     }
 }
-void CreateBST(SBTNode *bt, int key[], int n) {
-    bt = NULL;  // 将树清空
+void CreateBST(SBTNode **bt, int key[], int n)
+{
+    //bt = NULL;  // 将树清空
     int i;
     for ( i = 0; i < n; ++i) {
         BSTInsert(bt, key[i]);
+    }
+}
+void preorderBST(SBTNode *p) {
+    if (p != NULL) {  // 一定要记得判空
+        printf("%d ", p->key);
+        preorderBST(p->lchild);
+        preorderBST(p->rchild);
+    }
+}
+void inorderBST(SBTNode *p)
+{
+    if (p != NULL) {
+        inorderBST(p->lchild);
+        printf("%d ", p->key);
+        inorderBST(p->rchild);
+    }
+}
+void postorderBST(SBTNode *p) {
+    if (p != NULL) {
+        postorderBST(p->lchild);
+        postorderBST(p->rchild);
+        printf("%d ", p->key);
     }
 }
 

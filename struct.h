@@ -54,7 +54,7 @@ typedef struct TBTNode{
     struct TBTNode *rchild;
 }TBTNode;
 void preorder(BTNode *p);
-void inorder(BTNode *p);;
+void inorder(BTNode *p);
 void postorder(BTNode *p);
 void level(BTNode *p);
 void preorderNonrecursion(BTNode *bt);
@@ -66,6 +66,12 @@ typedef struct SBTNode {
     struct SBTNode *lchild;
     struct SBTNode *rchild;
 }SBTNode, *BiTree;
+SBTNode* BSTSearch(SBTNode *bt, int key);
+int BSTInsert(SBTNode **b, int key);
+void CreateBST(SBTNode **bq, int key[], int n);
+void preorderBST(SBTNode *p);
+void inorderBST(SBTNode *p);
+void postorderBST(SBTNode *p);
 
 //图
 typedef struct {
