@@ -39,7 +39,7 @@ typedef struct {
 void initQueue(SqQueue* qu);
 int isQueueEmpty(SqQueue* qu);
 int enQueue(SqQueue* qu, int x);
-int deQueue(SqQueue* qu, int x);
+int deQueue(SqQueue* qu, int* x);
 typedef struct BTNode {
     char data;   // 这里默认结点data域为char类型
 
@@ -60,6 +60,8 @@ void level(BTNode *p);
 void preorderNonrecursion(BTNode *bt);
 void inorderNonrecursion(BTNode *bt);
 void postorderNonrecursion(BTNode *bt);
+void createtree(BTNode** p,int n);
+void insertbtnode(int level, int max,BTNode** p);
 //二叉排序树
 typedef struct SBTNode {
     int key;

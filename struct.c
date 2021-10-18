@@ -2,6 +2,7 @@
 #include<stdlib.h>
 #include"struct.h"//.c文件中还是必须有.h的头啊，否则不好使
 #include <assert.h>
+#include"global.h"
 void initList(Sqlist* L) {
     L->length = 0;
 }
@@ -137,15 +138,15 @@ int enQueue(SqQueue* qu, int x) {
     qu->data[qu->rear] = x;  // 再放入元素
     return 1;
 }
-int deQueue(SqQueue* qu, int x) {
+int deQueue(SqQueue* qu, int* x) {
     if (qu->front == qu->rear)  return 0;  // 若队空，则不能删除
     qu->front = (qu->front+1)%MaxSize;  // 若队不空，则先移动指针
-    x = qu->data[qu->front];  // 再取出元素
+    *x = qu->data[qu->front];  // 再取出元素
     return 1;
 }
 void preorder(BTNode *p) {
     if (p != NULL) {  // 一定要记得判空
-        printf("%c ", p->data);
+        printf("%d ", (int)(p->data));
         preorder(p->lchild);
         preorder(p->rchild);
     }
@@ -153,7 +154,7 @@ void preorder(BTNode *p) {
 void inorder(BTNode *p) {
     if (p != NULL) {
         inorder(p->lchild);
-        printf("%c ", p->data);
+        printf("%d ", (int)(p->data));
         inorder(p->rchild);
     }
 }
@@ -161,9 +162,10 @@ void postorder(BTNode *p) {
     if (p != NULL) {
         postorder(p->lchild);
         postorder(p->rchild);
-        printf("%c ", p->data);
+        printf("%d ", (int)(p->data));
     }
 }
+
 void level(BTNode *p) {
     BTNode *que[MaxSize];
     BTNode *q = NULL;
@@ -247,6 +249,35 @@ void postorderNonrecursion(BTNode *bt) {
         while (top2 != -1) {
             p = Stack2[top2--];
             printf("%c\n", p->data);
+        }
+    }
+}
+void createtree(BTNode** p,int n)
+{ 
+    insertbtnode(0,n,p);
+
+}
+void insertbtnode(int level, int max,BTNode** p)
+{
+    if(level<max&&(*p)==NULL)
+    { 
+        *p=(BTNode*)malloc(sizeof(BTNode));
+        (*p)->data=(char)(rand()%50);
+        (*p)->lchild=NULL;
+        (*p)->rchild=NULL;
+        int flag=rand()%3;
+        if(!flag)
+        {
+            insertbtnode(level+1,max,&((*p)->lchild));
+
+        }
+        else if(flag==1)
+        {
+            insertbtnode(level+1,max,&(*p)->rchild);
+        }
+        else{
+            insertbtnode(level+1,max,&(*p)->lchild);
+            insertbtnode(level+1,max,&(*p)->rchild);
         }
     }
 }
