@@ -3,7 +3,7 @@ void myquicksort(int a[],int l,int r)
 {
     int tmp=a[l];
     int p=l,q=r;
-
+    if(r<=l)return;
     while(l<r)
     {
         if(tmp<a[r]&&(l<r))
@@ -19,12 +19,8 @@ void myquicksort(int a[],int l,int r)
 
     }
     a[l]=tmp;
-    if(l==r)
-    {
-        return;
-    }
     myquicksort(a,p,l-1);
-    myquicksort(a,r+1,q);
+    myquicksort(a,l+1,q);
 }
 int main()
 {
