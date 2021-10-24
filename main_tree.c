@@ -11,10 +11,12 @@ typedef struct node {
 }node_t,BTNode;
 void printTree2(BTNode *n, int type,  int level);
 void insertTree(BTNode **head, int val);
+int InsertTree_dg(BTNode **bt, int val);
 int hightbylecvel(BTNode* head);
 int widthbylecvel(BTNode* head);
 void postorder(BTNode* root);
 void preorderwidth(BTNode* root,int level);
+int preorderhight(BTNode* root);
 void preorder(BTNode* root);
 void preorder_nodg(BTNode*root);
 void inorder(BTNode* root);
@@ -27,12 +29,12 @@ int main(void)
 	for (i = 0; i < LEN; i++)
 		insertTree(&root, num[i]);
 	printTree2(root, 0,  0);
-    // int h1=hightbylecvel(root);
-    // int h2=preorderheight(root);
+     int h1=hightbylecvel(root);
+     int h2=preorderheight(root);
     //int w=widthbylecvel(root);
     //preorderwidth(root,0);  
-    // printf("h1=%d\n",h1);
-    // printf("h2=%d\n",h2);
+     printf("h1=%d\n",h1);
+     printf("h2=%d\n",h2);
     // postorder(root);
  
     preorder(root);
@@ -109,6 +111,19 @@ void insertTree(BTNode **head, int val)
 	else
 		tmp->left = new;	
 
+}
+int InsertTree_dg(BTNode **bt, int val)
+ {  // 因为bt要改变，所以要用引用型指针
+    if (*bt == NULL) {
+        *bt = (BTNode*)malloc(sizeof(BTNode));  // 创建新结点
+        (*bt)->left = (*bt)->right = NULL;
+        (*bt)->n = val;
+        return 1;
+    } else {
+        if (val == (*bt)->n) return 0;   // 关键字已经存在于树中
+        else if (val < (*bt)->n) return InsertTree_dg(&((*bt)->left), val);
+        else return InsertTree_dg(&((*bt)->right), val);
+    }
 }
 int hightbylecvel(BTNode* head)
  {
@@ -192,7 +207,7 @@ int hightbylecvel(BTNode* head)
     int h2=preorderheight(root->right);     
      return (h1>h2?h1:h2)+1;
  }
- 
+ //利用先序便利的方法来遍历树中每一个元素，利用level来进行标记
  void preorderwidth(BTNode* root,int level)
  {
      if(!root) return ;
@@ -276,6 +291,15 @@ int hightbylecvel(BTNode* head)
 
      }
      
+ }
+ int preorderhight(BTNode* root)
+ {
+     if(!root)
+        return;
+    int l=preorderheight(root->left);
+    int r=preorderheight(root->right);
+    return (l+1>r+1?l+1:r+1);
+
  }
 
  
