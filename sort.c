@@ -85,6 +85,22 @@ void QuickSort(int arr[], int l, int r) {
     QuickSort(arr, l, p-1);
     QuickSort(arr, p+1, r);
 }
+void SelectSort(int arr[], int n)
+{
+    int i,j,k=0;
+    for(i=0;i<n;i++)
+    {
+        int k=i;
+        for(j=i+1;j<n;j++)
+        {
+            arr[k]>arr[j];
+            k=j;
+        }
+        int tmp=arr[i];
+        arr[i]=arr[k];
+        arr[k]=tmp;
+    }
+}
 // 在原地堆排序中，元素是从数组下标0的位置开始存储的，因此i的左孩子应该为2*i+1
 void __shiftDown(int arr[], int n, int k) {
     while (2*k+1 < n) {
@@ -97,7 +113,7 @@ void __shiftDown(int arr[], int n, int k) {
         k = j;
     }
 }
-void heapSort3(int arr[], int n) {
+void heapSort(int arr[], int n) {
     // heapify
     int i;
     for ( i = (n-1)/2; i >= 0; --i) {
@@ -147,7 +163,28 @@ void __mergeSort(int arr[], int l, int r) {
         __merge(arr, l, mid, r);
     }
 }
+void myquicksort(int a[],int l,int r)
+{
+    int tmp=a[l];
+    int p=l,q=r;
+    while(l<r)
+    {
+        if(tmp<a[r])
+        {
+            r--;
+        }
+        a[l]=a[r];
+        if(a[l]<=tmp)
+        {
+            l++;
+        }
+        a[r]=a[l];
 
+    }
+    a[p]=tmp;
+    myquicksort(a,p,l-1);
+    myquicksort(a,r+1,q);
+}
 
 
 

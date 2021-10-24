@@ -2,7 +2,6 @@
 #include<stdlib.h>
 #include"struct.h"//.c文件中还是必须有.h的头啊，否则不好使
 #include <assert.h>
-#include"global.h"
 void initList(Sqlist* L) {
     L->length = 0;
 }
@@ -281,7 +280,7 @@ void insertbtnode(int level, int max,BTNode** p)
         }
     }
 }
-int visit[MaxSize];
+int visit[MaxSize]={0};
 void DFS(AGraph *G, int v) {
     ArcNode *p;
     visit[v] = 1;
@@ -292,6 +291,21 @@ void DFS(AGraph *G, int v) {
             DFS(G, p->adjvex);
             p = p->nextarc;
         }
+    }
+}
+void MDFS(MGraph *G,int v)
+{
+    int i;
+    if(visit[v]==1)return;
+    printf("%d ",v);
+    visit[v]==1;
+    for( i=0;i<G->n;i++)
+    {
+        if(G->edges[v][i]==1)
+        {
+            MDFS(G,i);
+        }
+        
     }
 }
 void BFS(AGraph *G, int v) {

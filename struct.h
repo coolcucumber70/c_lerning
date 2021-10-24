@@ -105,6 +105,14 @@ typedef struct {
     int a, b;  // a和b为一条边所连的两个顶点
     int w;  // 边的权值
 }Road;
+int visit[MaxSize];
+void DFS(AGraph *G, int v);
+void BFS(AGraph *G, int v);
+void MDFS(MGraph *G,int v);
+void MBFS(MGraph *G, int v);
+
 void Dijkstra(MGraph g, int v, int dist[], int path[]);
 void Floyd(MGraph g, int Path[][MaxSize]);
+void Kruskal(MGraph g, int sum, Road road[]);
+void Prim(MGraph g, int v0, int sum);
 #endif
