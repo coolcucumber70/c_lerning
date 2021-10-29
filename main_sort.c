@@ -15,17 +15,20 @@ void __shiftDown(int arr[], int n, int k);
 void heapSort(int arr[], int n);
 void mergeSort(int arr[], int l, int r);
 void merge(int arr[], int l, int mid, int r);
+int findtheKMin(int a[],int n,int k);
 int main()
 {
      int a[N]={3,1,4,6,2,9,5,8,7,10};
-     int b[N]={3,1,4,6,2,9,5,8,7,10};
-     int c[N]={3,1,4,6,2,9,5,8,7,10};
-     int d[N]={3,1,4,6,2,9,5,8,7,10};
+    //  int b[N]={3,1,4,6,2,9,5,8,7,10};
+    //  int c[N]={3,1,4,6,2,9,5,8,7,10};
+    //  int d[N]={3,1,4,6,2,9,5,8,7,10};
      //int e[N]={3,1,4,6,2,9,5,8,7,10};
-    cal(BinaryInsertSort, a, 10);
-    cal(heapSort,c,10);
-    cal1(QuickSort,b,10);
-    cal1(mergeSort,d,10);
+    // cal(BinaryInsertSort, a, 10);
+    // cal(heapSort,c,10);
+    // cal1(QuickSort,b,10);
+    // cal1(mergeSort,d,10);
+    int result=findtheKMin(a,10,3);
+    printf("%d\n",result);
 
 
     
@@ -267,5 +270,26 @@ void mergeSort(int arr[], int l, int r)
     { // 优化处理，使之能够更好处理近乎有序的数组
         merge(arr, l, mid, r);
     }
+}
+int findtheKMin(int a[],int n,int k)
+{
+    int i,j;
+    for(i=0;i<n;i++)
+    {
+        int m=0;
+        for(j=1;j<n-i;j++)
+        {
+            if(a[j]>a[m])
+               m=j;
+        }
+        if(i==k-1)
+        {
+            return a[m];
+        }
+        int tmp=a[m];
+        a[m]=a[n-i];
+        a[n-i]=tmp;
+    }
+
 }
 

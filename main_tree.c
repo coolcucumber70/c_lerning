@@ -2,36 +2,65 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#define MaxSize 20
-#define LEN 7
+#define MaxSize 100
+#define LEN 14
 int v[MaxSize]={0};
+int mylevel;
 typedef struct node {
 	int n;
 	struct node *left, *right;
 }node_t,BTNode;
+BTNode*result;
 void printTree2(BTNode *n, int type,  int level);
 void insertTree(BTNode **head, int val);
 int InsertTree_dg(BTNode **bt, int val);
 int hightbylecvel(BTNode* head);
+void xlevel_dg(BTNode* root,int x,int level);//2015
+void xsearch_dg(BTNode*root,int x);//2015
 int widthbylecvel(BTNode* head);
-void postorder(BTNode* root);
 void preorderwidth(BTNode* root,int level);
 int preorderhight(BTNode* root);
+void prewpl(BTNode* root,int level);//求树的权值，408 
 void preorder(BTNode* root);
 void preorder_nodg(BTNode*root);
 void inorder(BTNode* root);
 void inorder_nodg(BTNode*root);
+void postorder(BTNode* root);
+void postorder_nodg(BTNode*root);
 void deleteBTnode(BTNode*root);
+void swapchild(BTNode*root);
+void FirstNode(BTNode* root);//2018 2
+int findNearMid(BTNode* root);//2017 2
+void btreetoexp(BTNode*root,int level);//将树输出中序表达式 408  2017
+
+
 int main(void)
 {
 	BTNode *root = NULL;
-	int i, num[LEN] = {4,5,3,6,2,7,1};
+	int i, num[LEN] = {10,4,8,9,2,11,3,1,16,5,33,6,20,7};
 
 	for (i = 0; i < LEN; i++)
 		insertTree(&root, num[i]);
 	printTree2(root, 0,  0);
-    swapchild(root);
-    printTree2(root, 0,  0);
+    // prewpl(root,1);
+    // int sum=0;
+    // for(i=1;i<15;i++)
+    // {
+    //     sum=sum+v[i]*i;
+
+    // }
+    // int sum1=wplbylevel(root);
+    // printf("sum=%d\n",sum);
+    // printf("sum1=%d\n",sum1);
+    btreetoexp(root,0);
+    //int data=findNearMid(root);
+    //xsearch_dg(root,3);
+    //xlevel_dg(root,8,1);
+    //printf("%d\n",result->n);
+    //printf("level=%d\n",mylevel);
+    //FirstNode(root);
+    //swapchild(root);
+    //printTree2(root, 0,  0);
     //  int h1=hightbylecvel(root);
     //  int h2=preorderheight(root);
     // //int w=widthbylecvel(root);
@@ -230,7 +259,6 @@ int hightbylecvel(BTNode* head)
      postorder(root->right);
      printf("%d ",root->n);
  }
- //
  void preorder(BTNode* root)
  {
      if(!root)
@@ -335,6 +363,143 @@ void deleteBTnode(BTNode*root)
 {
     deleteBTnode(root->left);
     deleteBTnode(root->right);
-    delete(root);
+    free(root);
 }
- 
+void FirstNode(BTNode* root)
+{
+    BTNode* stack[MaxSize];
+    int top=0;
+    if(!root)return;
+
+    BTNode*p=root;
+    while(p)
+    {
+        while(p)
+    {
+        stack[top]=p;
+        top++;
+        p=p->left;
+    }
+    top--;
+    p=stack[top];
+    if(p->right)
+    {
+        p=p->right;
+    }
+    else{
+        printf("%d ",p->n);
+        return;
+    }
+
+
+    }
+
+
+}
+int findNearMid(BTNode* root)
+{
+    BTNode*l=root;
+    BTNode*prel=NULL;
+    BTNode* prer=NULL;
+    BTNode*r=root;
+    int result=INT_MAX;
+    while(l){
+        prel=l;
+        l=l->left;
+    }
+    while (r)
+    {
+        prer=r;
+        r=r->right;
+    }
+    int half=(prel->n+prer->n)/2;
+    printf("half=%d\n",half);
+    BTNode *p=root;
+    while(p)
+    {
+        if(half>=p->n)
+        {
+            p=p->right;
+        }
+        if(half<p->n)
+        {
+            result=p->n;
+            p=p->left;       
+        }
+    }
+    printf("result:%d\n",result);
+    return result;
+    
+}
+
+void xsearch_dg(BTNode* root,int x)
+{
+    if(!root)return;
+    if(root->n==x)result=root;
+    xsearch_dg(root->left,x);
+    xsearch_dg(root->right,x);
+}
+void xlevel_dg(BTNode* root,int x,int level)
+{
+    if(!root) return;
+    if(root->n==x)mylevel=level;
+    xlevel_dg(root->left,x,level+1);
+    xlevel_dg(root->right,x,level+1);
+}
+void prewpl(BTNode* root,int level)
+{
+    if(!root){
+        return;
+    }
+    v[level]=v[level]+root->n;
+    prewpl(root->left,level+1);
+    prewpl(root->right,level+1);
+}
+int wplbylevel(BTNode* root)
+{
+    BTNode* queue[MaxSize]={0};
+    int front=0,rear=0;
+    rear=(rear+1)%MaxSize;
+    BTNode*q=root;
+    BTNode*p=NULL;
+    int level=0;
+    int sum=0;
+    int result=0;
+    queue[rear]=root;
+    while(front!=rear)
+    {
+
+        front=(front+1)%MaxSize;
+        p=queue[front];
+        sum=sum+p->n;
+        if(p->left){
+            rear=(rear+1)%MaxSize;
+            queue[rear]=p->left;
+        }
+        if(p->right){
+            rear=(rear+1)%MaxSize;
+            queue[rear]=p->right;
+        }
+        if(p==q){
+            level++;
+            result=result+sum*level;
+            sum=0;
+            q=queue[rear];    
+        }
+    }
+    return result;
+}
+void btreetoexp(BTNode*root,int level)
+{
+    if(!root)return;
+    if((root->left||root->right)&&level>0){
+        printf("(");
+    }
+    btreetoexp(root->left,level+1);
+    printf("%d",(root->n));
+    btreetoexp(root->right,level+1);
+     if((root->left||root->right)&&level>0){
+        printf(")");
+    }
+
+}
