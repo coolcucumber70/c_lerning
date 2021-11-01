@@ -16,15 +16,24 @@ int findElem(Sqlist L, int e);
 int deleteElem(Sqlist* L, int p, int* e);
 void reversearry(int a[],int k,int n);//408 2010 反转
 void reverse(int a[],int l,int r);
-int findzhongweishu(int a[],int b[],int n);
-int majority(int a[],int n);
+int findzhongweishu(int a[],int b[],int n);// 408 2011 两个数组的中位数
+int majority(int a[],int n);//408 2013 找到这个数组中的主元素
 void deletetwosamenode(int a[],int b[],int c[],int an,int bn, int cn);//2006 1 删除a中bc都有的元素
+void NewSequence(int a[],int n);//2018 奇偶对换
+int findminnode(int a[],int n);//408 2018 找到没有出现的最小的元素
+int FindMin(int a[],int n);
+void printkarray(int a[],int n,int k);// 2013 查找两个元素的和等于给定值k
+        
 int main()
 {
-    int a[8]={1,2,3,5,7,8,9,10};
+    int a[8]={1,2,4,6,7,8,9,12};
     int b[9]={2,4,5,6,7,8,9,10,12};
     int c[10]={1,2,3,4,6,8,9,12,13,15};
-    deletetwosamenode(a,b,c,8,9,10);
+    printkarray(a,8,11);
+    //deletetwosamenode(a,b,c,8,9,10);
+    //int sum=findminnode(a,8);
+    //int sum=FindMin(a,8);
+    //("%d",sum);
     return 0;
 }
 void initList(Sqlist* L) {
@@ -188,4 +197,77 @@ void deletetwosamenode(int a[],int b[],int c[],int an,int bn, int cn)
         printf("%d ",a[i]);
     }
 
+}
+void NewSequence(int a[],int n)
+{
+    int p=0,q=1;
+    int tmp;
+    while(p<n&&q<n+1)
+    {
+        while(a[p]%2==0)
+        {
+            p=p+2;
+        }
+        while (a[q]%2==1)
+        {
+            q=q+2;
+        }
+        tmp=a[p];
+        a[p]=a[q];
+        a[q]=tmp;
+        p=p+2;
+        q=q+2;
+
+        
+    }
+}
+int findminnode(int a[],int n){
+    int* data=malloc((n+1)*sizeof(int));
+    int i,tmp;
+    for(i=1;i<n+1;i++)
+        data[i]=0;
+    for(i=0;i<n;i++)
+    {
+        tmp=a[i];
+        if(tmp>0&&tmp<n+1)
+          data[tmp]=1;  
+    }
+    for(i=1;i<n+1;i++)
+    {
+        if(data[i]==0)
+          return i;
+    }
+    return n+1;
+}
+int FindMin(int a[],int n){
+    int l=0;
+    int r=n-1;
+    while(l<r){
+        int mid=(l+r)/2;
+        if(a[mid]>a[mid-1]&&a[mid]<a[mid+1])
+          r=mid;
+        else if(a[mid]<a[mid-1]&&a[mid]>a[mid+1])
+          l=mid;
+        else 
+          return a[mid];   
+        
+    }
+    return a[l];
+}
+void printkarray(int a[],int n,int k){
+    int i=0,j=n-1;
+    while(i<j){
+        if(a[i]+a[j]==k){
+          printf("a[%d]+a[%d]=%d\n",i,j,k);
+          return;
+        }
+        else if(a[i]+a[j]>k){
+            j--;
+        }
+        else{
+            i++;
+        }
+    }
+    printf("no number!\n");
+    return;
 }

@@ -6,6 +6,7 @@
 #define LEN 14
 int v[MaxSize]={0};
 int mylevel;
+int minlen=INT_MAX,maxlen=INT_MIN;
 typedef struct node {
 	int n;
 	struct node *left, *right;
@@ -20,7 +21,8 @@ void xsearch_dg(BTNode*root,int x);//2015
 int widthbylecvel(BTNode* head);
 void preorderwidth(BTNode* root,int level);
 int preorderhight(BTNode* root);
-void prewpl(BTNode* root,int level);//求树的权值，408 
+void prewpl(BTNode* root,int level);//求树的权值，408  2014利用递归
+int wplbylevel(BTNode* root);//利用层次遍历——广度遍历求权值
 void preorder(BTNode* root);
 void preorder_nodg(BTNode*root);
 void inorder(BTNode* root);
@@ -29,9 +31,11 @@ void postorder(BTNode* root);
 void postorder_nodg(BTNode*root);
 void deleteBTnode(BTNode*root);
 void swapchild(BTNode*root);
-void FirstNode(BTNode* root);//2018 2
+void FirstNode(BTNode* root);//2018 2 遍历后续的第一个元素
 int findNearMid(BTNode* root);//2017 2
 void btreetoexp(BTNode*root,int level);//将树输出中序表达式 408  2017
+int isfulltree(BTNode*root);//2014 判断完全二叉树
+void findminmax(BTNode*root,int deep);
 
 
 int main(void)
@@ -41,7 +45,10 @@ int main(void)
 
 	for (i = 0; i < LEN; i++)
 		insertTree(&root, num[i]);
-	printTree2(root, 0,  0);
+	printTree2(root, 0,  1);
+    findminmax(root,0);
+    printf("max:%d",maxlen);
+    printf("min:%d",minlen);
     // prewpl(root,1);
     // int sum=0;
     // for(i=1;i<15;i++)
@@ -49,10 +56,10 @@ int main(void)
     //     sum=sum+v[i]*i;
 
     // }
-    // int sum1=wplbylevel(root);
+     //int sum1=wplbylevel(root);
     // printf("sum=%d\n",sum);
     // printf("sum1=%d\n",sum1);
-    btreetoexp(root,0);
+    //btreetoexp(root,0);
     //int data=findNearMid(root);
     //xsearch_dg(root,3);
     //xlevel_dg(root,8,1);
@@ -502,4 +509,39 @@ void btreetoexp(BTNode*root,int level)
         printf(")");
     }
 
+}
+int isfulltree(BTNode*root){
+    BTNode* queue[MaxSize];
+    int front=0,rear=0;
+    queue[rear]=root;
+    rear=(rear+1)%MaxSize;
+    BTNode*p=NULL;
+    while(front!=rear)
+    {
+        p=queue[front];
+        front=(front+1)%MaxSize;
+        if(!p)
+          break; 
+        queue[rear]=p->left;
+        rear=(rear+1)%MaxSize;
+        queue[rear]=p->right;
+        rear=(rear+1)%MaxSize;
+    }
+    while(front!=rear){
+        p=queue[front];
+        front=(front+1)%MaxSize;
+        if(p)
+          return 0;
+
+    }
+    return 1;
+}
+void findminmax(BTNode*root,int deep){
+    if(!root)return;
+    if(!(root->left)&&!(root->right)){
+      maxlen=(maxlen>deep?maxlen:deep);
+      minlen=(minlen<deep?minlen:deep);
+    }
+    findminmax(root->left,deep+1);
+    findminmax(root->right,deep+1);
 }
