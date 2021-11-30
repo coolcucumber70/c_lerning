@@ -14,7 +14,9 @@ typedef struct node {
 BTNode*result;
 void printTree2(BTNode *n, int type,  int level);
 void insertTree(BTNode **head, int val);
+void insertTree1(BTNode **head, int val);
 int InsertTree_dg(BTNode **bt, int val);
+void DeleteNode(BTNode **head, int val);
 int hightbylecvel(BTNode* head);
 void xlevel_dg(BTNode* root,int x,int level);//2015
 void xsearch_dg(BTNode*root,int x);//2015
@@ -36,6 +38,7 @@ int findNearMid(BTNode* root);//2017 2
 void btreetoexp(BTNode*root,int level);//将树输出中序表达式 408  2017
 int isfulltree(BTNode*root);//2014 判断完全二叉树
 void findminmax(BTNode*root,int deep);
+void reversetree(BTNode*root);
 
 
 int main(void)
@@ -44,11 +47,16 @@ int main(void)
 	int i, num[LEN] = {10,4,8,9,2,11,3,1,16,5,33,6,20,7};
 
 	for (i = 0; i < LEN; i++)
-		insertTree(&root, num[i]);
+		insertTree1(&root, num[i]);
 	printTree2(root, 0,  1);
-    findminmax(root,0);
-    printf("max:%d",maxlen);
-    printf("min:%d",minlen);
+    DeleteNode(&root,6);
+    printTree2(root, 0,  1);
+    printf("nb\n");
+    //reversetree(root);
+    //printTree2(root, 0,  1);
+    // findminmax(root,0);
+    // printf("max:%d",maxlen);
+    // printf("min:%d",minlen);
     // prewpl(root,1);
     // int sum=0;
     // for(i=1;i<15;i++)
@@ -151,6 +159,31 @@ void insertTree(BTNode **head, int val)
 		tmp->left = new;	
 
 }
+void insertTree1(BTNode **head, int val){
+    BTNode* new=malloc(sizeof(BTNode));
+    new->n=val;
+    new->left=NULL;
+    new->right=NULL;
+    if(*head==NULL){
+        *head=new;
+        return;
+    }
+    BTNode* p=*head;
+    BTNode* q=NULL;
+    while(p){
+        q=p;
+        if(new->n>p->n)
+          p=p->right;
+        else
+          p=p->left;
+              
+    }
+    if(new->n>q->n)
+      q->right=new;
+    else
+      q->left=new;
+       
+}
 int InsertTree_dg(BTNode **bt, int val)
  {  // 因为bt要改变，所以要用引用型指针
     if (*bt == NULL) {
@@ -163,6 +196,53 @@ int InsertTree_dg(BTNode **bt, int val)
         else if (val < (*bt)->n) return InsertTree_dg(&((*bt)->left), val);
         else return InsertTree_dg(&((*bt)->right), val);
     }
+}
+void DeleteNode(BTNode **head, int val){
+    BTNode*p=*head;
+    BTNode* pre=*head;
+    BTNode*tmp=NULL;
+    while(p){
+
+        if(val==p->n)
+          break;
+        pre=p;
+        if(val>p->n)
+          p=p->right;
+        else 
+          p=p->left;
+        
+    }
+    tmp=p;
+    if(!p)
+      printf("no node\n");
+      return;
+    if(p->left&&p->right)
+    {
+        pre=p;
+        p=p->left;
+        while(p->right)
+          pre=p;
+          p=p->right;
+        tmp->n=p->n;
+    }
+    BTNode**s;
+    if(pre->left==p)
+      s=&pre->left;
+    else
+      s=&pre->right;
+    if(!p->left&&!p->right){
+      free(p);
+      *s=NULL;
+    }
+    else if(p->left){
+        *s=p->left;
+        free(p);
+    }
+    else{
+        *s=p->right;
+        free(p);
+    }  
+
 }
 int hightbylecvel(BTNode* head)
  {
@@ -544,4 +624,14 @@ void findminmax(BTNode*root,int deep){
     }
     findminmax(root->left,deep+1);
     findminmax(root->right,deep+1);
+}
+void reversetree(BTNode*root){
+    if(!root)return;
+    BTNode*tmp=NULL;
+    tmp=root->right;
+    root->right=root->left;
+    root->left=tmp;    
+    reversetree(root->left);
+    reversetree(root->right);
+
 }

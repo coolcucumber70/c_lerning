@@ -39,6 +39,7 @@ AGraph * alterMtoAGraph(MGraph MG);
 void DFS_AG(AGraph *G, int v);
 void DFS_MG(MGraph G,int v); 
 void BFS(AGraph *G, int v);
+int shortpath(AGraph* G,int u,int v);
 int visit[MaxSize];
 int visit1[MaxSize];
 int main()
@@ -59,12 +60,17 @@ int main()
 
     }
     printMGraph(MG);
-    DFS_MG(MG,0);
+    printf("MG深度遍历：");
+    //DFS_MG(MG,0);
     printf("\n");
     AGraph*AG= alterMtoAGraph(MG);
     printAGraph(*AG);
-    DFS_AG(AG,0);
-    printf("\n");
+    int sum=shortpath(AG,2,1);
+    //printf("AG深度遍历：");
+    //DFS_AG(AG,0);
+    //printf("\n");
+    //BFS(AG,0);
+    printf("sum:%d\n",sum);
 
 }
 void printMGraph(MGraph G)
@@ -106,14 +112,14 @@ void printAGraph(AGraph AG)
 		AG->adjlist[i].firstarc=NULL;
      for(i=0;i<AG->n;i++)
      {
-         for(j=AG->n-1;j>0;j--)
+         for(j=AG->n-1;j>=0;j--)
          {
              if(MG.edges[i][j]==1)
              {
                  ArcNode*q=malloc(sizeof(ArcNode));
                  q->adjvex=j;
                  q->nextarc=AG->adjlist[i].firstarc;
-                 AG->adjlist[i].firstarc=q;
+                 AG->adjlist[i].firstarc=q;//利用头插法把元素插进去
              }
          }
 
@@ -124,13 +130,13 @@ void printAGraph(AGraph AG)
 void DFS_AG(AGraph *G, int v) {
     ArcNode *p;
     visit1[v] = 1;
-    printf("%d  ",v);
+    printf("%d ",v);
     p = G->adjlist[v].firstarc;  // 让p指向顶点v的第一条边
     while (p) {
         if (visit1[p->adjvex] == 0) {
             DFS_AG(G, p->adjvex);
-            p = p->nextarc;
         }
+        p = p->nextarc;
     }
 }
 void DFS_MG(MGraph G,int v)
@@ -155,7 +161,7 @@ void BFS(AGraph *G, int v) {
     ArcNode *p;
     int que[MaxSize], front = 0, rear = 0;  // 定义一个队列
     int j;
-    printf("%d\n",v);
+    printf("%d ",v);
     visit[v] = 1;
     rear = (rear+1)%MaxSize;  // 入队
     que[rear] = v;
@@ -165,7 +171,8 @@ void BFS(AGraph *G, int v) {
         p = G->adjlist[j].firstarc;  // p指向出队顶点j的第一条边
         while (p != NULL) {  // 将p的所有邻接点未被访问的入队
             if (visit[p->adjvex] == 0) {
-                printf("%d\n",p->adjvex);
+                visit[p->adjvex]=1;
+                printf("%d ",p->adjvex);
                 rear = (rear+1)%MaxSize;
                 que[rear] = p->adjvex;
             }
@@ -284,4 +291,37 @@ void Floyd(MGraph g, int Path[][MaxSize]) {
             }
         }
     }
+}
+int shortpath(AGraph* G,int u,int v){
+    int queue[MaxSize];
+    int front=0,rear=0,level=1;
+    int p=u,q,f;
+    queue[rear]=u;
+    rear=(rear+1)%MaxSize;
+    visit[u]=1;
+    while(front!=rear){
+        q=queue[front];
+        front=(front+1)%MaxSize;
+        ArcNode*f= G->adjlist[q].firstarc;
+        while(f){
+            if(f->adjvex==v){
+               return level;
+            }
+            if(visit[f->adjvex]==0){
+                queue[rear]=f->adjvex;
+                rear=(rear+1)%MaxSize;
+                visit[f->adjvex]=1;
+            }
+            f=f->nextarc;
+        }
+        if(p==q){
+          level++;
+          p=queue[rear-1];
+        }
+
+        
+
+    }
+    return -1;
+
 }

@@ -10,11 +10,10 @@ int findAndDelete(LNode *list, int x);
 int findknode(LNode*head,int k);//查找倒数k个数据408_2009
 void deletesamenode(LNode*head,int n);//408_2015,删除链表中的绝对值相同的节点
 LNode* findsanmenode(LNode* str1,LNode* str2);//408  2012 寻找链表的共同点
-
+LNode* changenode(LNode* head,int n);//408 2020年，交换链表数据
 
 int main()
 {
-
 
 }
 void InitLinkList(LNode *list) {
@@ -149,4 +148,38 @@ int findknode(LNode*head,int k)
         q=q->next;
     }
     return p->data;
+}
+LNode* changenode(LNode* head,int n)
+{
+    int cout=(n+1)/2;
+    LNode* s = (LNode*)malloc(sizeof(LNode));
+    s->next=NULL;
+    int i;
+    LNode* p=head->next;
+    LNode* q=NULL;
+    LNode* t1=NULL;
+    LNode* t2=NULL;
+    for(i=0;i<cout;i++)
+    {
+        p=p->next;
+    }
+    while(p)
+    {
+        q=p->next;
+        p->next=s->next;
+        s->next=p;
+        p=q;
+    }
+    p=head->next;
+    q=s->next;
+    while((!p)||(!q))
+    {
+        t1=p->next;
+        t2=q->next;
+        p->next=q;
+        q->next=t1;
+        p=t1;
+        q=t2;
+    }
+    return head;
 }

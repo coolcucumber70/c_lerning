@@ -10,6 +10,7 @@ void BinaryInsertSort(int R[], int n); //折半插入
 void ShellSort(int arr[], int n);
 void BubbleSort(int arr[], int n);       //冒泡排序
 void QuickSort(int a[], int l, int r);//快速排序
+void my_QuickSort(int a[], int l, int r);//快速排序
 void SelectSort(int arr[], int n);
 void __shiftDown(int arr[], int n, int k);
 void heapSort(int arr[], int n);
@@ -222,41 +223,41 @@ void heapSort(int arr[], int n)
 }
 // 将arr[l...mid]和arr[mid+1...r]进行归并
 
-void merge(int arr[], int l, int mid, int r)
-{
-    int aux[r - l + 1];
-    int i, k;
-    for (i = l; i <= r; ++i)
-    {
-        aux[i - l] = arr[i];
-    }//这一步，我把数组复制到了aux数组中
-    i = l;
-    int j = mid + 1;
-    for (k = l; k <= r; ++k)
-    {
-        // 首先处理i, j越界
-        if (i > mid)
-        {
-            arr[k] = aux[j - l];
-            ++j;
-        }
-        else if (j > r)
-        {
-            arr[k] = aux[i - l];
-            ++i;
-        }
-        else if (aux[i - l] <= aux[j - l])
-        {
-            arr[k] = aux[i - l];
-            ++i;
-        }
-        else
-        {
-            arr[k] = aux[j - l];
-            ++j;
-        }
-    }
-}
+// void merge(int arr[], int l, int mid, int r)
+// {
+//     int aux[r - l + 1];
+//     int i, k;
+//     for (i = l; i <= r; ++i)
+//     {//
+//         aux[i - l] = arr[i];
+//     }//这一步，我把数组复制到了aux数组中
+//     i = l;
+//     int j = mid + 1;
+//     for (k = l; k <= r; ++k)
+//     {
+//         // 首先处理i, j越界
+//         if (i > mid)
+//         {
+//             arr[k] = aux[j - l];
+//             ++j;
+//         }
+//         else if (j > r)
+//         {
+//             arr[k] = aux[i - l];
+//             ++i;
+//         }
+//         else if (aux[i - l] <= aux[j - l])
+//         {
+//             arr[k] = aux[i - l];
+//             ++i;
+//         }
+//         else
+//         {
+//             arr[k] = aux[j - l];
+//             ++j;
+//         }
+//     }
+// }
 // 递归使用归并排序，对arr[l...r]的范围进行排序
 
 void mergeSort(int arr[], int l, int r)
@@ -291,5 +292,19 @@ int findtheKMin(int a[],int n,int k)
         a[n-i]=tmp;
     }
 
+}
+void my_QuickSort(int a[], int l, int r){
+    int tmp=a[l];
+    int low=l,high=r;
+    while(low<high)
+    {
+        while(tmp<a[high])high--;
+        a[low]=a[high];
+        while(a[low]<tmp)low++;
+        a[high]=a[low];
+    }
+    a[low]=tmp;
+    my_QuickSort(a,l,low-1);
+    my_QuickSort(a,low+1,r);
 }
 
