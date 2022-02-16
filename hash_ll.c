@@ -13,7 +13,8 @@ typedef struct HNode {
 		n关键字数目
 */
 void createHB(Hnode *heahLink[], int key[], int n) {
-	for (int i = 0; i < n; i++) {
+	int i;
+	for (i = 0; i < n; i++) {
 		Hnode *head = (Hnode *)malloc(sizeof(Hnode));
 		if (!head) {
 			printf("error\n");
@@ -24,7 +25,7 @@ void createHB(Hnode *heahLink[], int key[], int n) {
 		heahLink[i] = head;
 	}
 	//插入操作
-	for (int i = 0; i < n; i++) {
+	for (i = 0; i < n; i++) {
 		Hnode *p, *H,*s;
 		int j = key[i] % 11;
 		H = p = heahLink[j];

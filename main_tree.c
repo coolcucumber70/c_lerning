@@ -18,11 +18,15 @@ void insertTree1(BTNode **head, int val);
 int InsertTree_dg(BTNode **bt, int val);
 void DeleteNode(BTNode **head, int val);
 int hightbylecvel(BTNode* head);
+int high_dg(BTNode*root,int *high);
 void xlevel_dg(BTNode* root,int x,int level);//2015
+int xlevel_dg2(BTNode* root,int x);
 void xsearch_dg(BTNode*root,int x);//2015
+BTNode*  xsearch_dg1(BTNode*root,int x);//哪怕不是一条线，也是完全可以用return的
 int widthbylecvel(BTNode* head);
 void preorderwidth(BTNode* root,int level);
 int preorderhight(BTNode* root);
+int IsBlancedTree_R(BTNode* root);
 void prewpl(BTNode* root,int level);//求树的权值，408  2014利用递归
 int wplbylevel(BTNode* root);//利用层次遍历——广度遍历求权值
 void preorder(BTNode* root);
@@ -39,8 +43,11 @@ void btreetoexp(BTNode*root,int level);//将树输出中序表达式 408  2017
 int isfulltree(BTNode*root);//2014 判断完全二叉树
 void findminmax(BTNode*root,int deep);
 void reversetree(BTNode*root);
-
-
+int IsAVL(BTNode* root, int height);
+int sumnode(BTNode*root);
+int maxnode(BTNode*root);
+int contlevel_k(BTNode*root,int k);
+int isjudgeerchashu(BTNode* root);
 int main(void)
 {
 	BTNode *root = NULL;
@@ -49,9 +56,21 @@ int main(void)
 	for (i = 0; i < LEN; i++)
 		insertTree1(&root, num[i]);
 	printTree2(root, 0,  1);
-    DeleteNode(&root,6);
-    printTree2(root, 0,  1);
-    printf("nb\n");
+    int result=sumnode(root);
+    //int result=xlevel_dg2(root,9);
+    //int result=contlevel_k(root,4);
+    // int result=maxnode(root);
+    printf("result=%d\n",result);
+    // high_dg(root,&high);
+    // printf("h1=%d",high);
+    // printf("\n");
+    // int high2=preorderhight(root);
+    // printf("h2=%d",high2);
+    // int sum=sumnode(root);
+    // printf("sum=%d",sum);
+    //DeleteNode(&root,6);
+    // printTree2(root, 0,  1);
+    // printf("nb\n");
     //reversetree(root);
     //printTree2(root, 0,  1);
     // findminmax(root,0);
@@ -69,9 +88,13 @@ int main(void)
     // printf("sum1=%d\n",sum1);
     //btreetoexp(root,0);
     //int data=findNearMid(root);
-    //xsearch_dg(root,3);
-    //xlevel_dg(root,8,1);
-    //printf("%d\n",result->n);
+    // xsearch_dg(root,3);
+    // printf("\n");
+    // //xlevel_dg(root,8,1);
+    // printf("%d\n",result->n);
+    // BTNode* a=xsearch_dg1(root,7);
+    // printf("\n");
+    // printf("%d\n",a->n);
     //printf("level=%d\n",mylevel);
     //FirstNode(root);
     //swapchild(root);
@@ -193,7 +216,7 @@ int InsertTree_dg(BTNode **bt, int val)
         return 1;
     } else {
         if (val == (*bt)->n) return 0;   // 关键字已经存在于树中
-        else if (val < (*bt)->n) return InsertTree_dg(&((*bt)->left), val);
+        else if (val < (*bt)->n) return InsertTree_dg(&((*bt)->left), val);//这种写法不同于回溯的写法呀
         else return InsertTree_dg(&((*bt)->right), val);
     }
 }
@@ -419,6 +442,7 @@ int hightbylecvel(BTNode* head)
     return (l+1>r+1?l+1:r+1);
 
  }
+
  int IsBlancedTree_R(BTNode* root)
 {
     //空树是平衡二叉树
@@ -525,6 +549,16 @@ void xsearch_dg(BTNode* root,int x)
     if(root->n==x)result=root;
     xsearch_dg(root->left,x);
     xsearch_dg(root->right,x);
+}
+BTNode*xsearch_dg1(BTNode*root,int x){
+    if(!root)return NULL;
+    if(root->n==x)return root;
+    if(root->n>x){
+        return xsearch_dg1(root->left,x);
+    }
+    else{
+        return xsearch_dg1(root->right,x);
+    }
 }
 void xlevel_dg(BTNode* root,int x,int level)
 {
@@ -634,4 +668,100 @@ void reversetree(BTNode*root){
     reversetree(root->left);
     reversetree(root->right);
 
+}
+// int IsAVL(BTNode* root, int height)
+// {
+//     if(root== NULL) // 空树，返回真
+//     {
+//         height = 0;
+//         return 1;
+//     }
+//     int heightLeft;
+//     int resultLeft = IsAVL(root->left, heightLeft);
+//     int heightRight;
+//     int resultRight = IsAVL(root->right, heightRight);
+//     if(resultLeft && resultRight && abs(heightLeft - heightRight) <= 1) // 左子树和右子树都是AVL，并且高度相差不大于1，返回真
+//     {
+//         height = max(heightLeft, heightRight) + 1;
+//         return 1;
+//     }
+//     else
+//     {
+//         height = max(heightLeft, heightRight) + 1;
+//         return 0;
+//     }
+// }
+int high_dg(BTNode*root,int *high){
+    if(root==NULL){
+        *high=0;
+        return 0;
+    }
+    int h1;
+    int h2;
+    high_dg(root->left,&h1);
+    high_dg(root->right,&h2);
+    *high=(h1>h2?h1:h2)+1;
+}
+int sumnode(BTNode*root){
+    if(root==NULL){
+        return 0;
+    }
+    return sumnode(root->left)+sumnode(root->right)+1;
+}
+int maxnode(BTNode*root){
+    if(root==NULL){
+        return -1;
+    }
+    if(root->left==NULL&&root->right==NULL){
+        return root->n;
+    }
+    int h1=maxnode(root->left);
+    int h2=maxnode(root->right);
+    int h3=__max(h1,h2);
+    return __max(root->n,h3);
+}
+int contlevel_k(BTNode*root,int k){
+    if(root==NULL){
+        return 0;
+    }
+    if(k==1){
+        return 1;
+    }
+    return contlevel_k(root->left,k-1)+contlevel_k(root->right,k-1);
+
+}
+int xlevel_dg2(BTNode* root,int x){
+    if(root==NULL){
+        return -100;
+    }
+    if(root->n==x){
+        return 1;
+    }
+    int h1=xlevel_dg2(root->left,x)+1;
+    int h2=xlevel_dg2(root->right,x)+1;
+    return __max(h1,h2);
+
+}
+int isjudgeerchashu(BTNode* root){
+    if(root==NULL){
+        return 1;
+    }
+    if(root->left&&root->right){
+        if(root->n<root->left->n||root->n>root->right->n)
+        return 0;
+    }
+    if(root->left){
+        if (root->n<root->left->n)
+        {
+            return 0;
+        }
+        
+    }
+    if(root->right){
+        if (root->n>root->right->n)
+        {
+            return 0;
+        }
+    }
+    return(isjudgeerchashu(root->left)&&isjudgeerchashu(root->right));
 }

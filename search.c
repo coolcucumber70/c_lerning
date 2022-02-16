@@ -1,4 +1,6 @@
 #include<stdio.h>
+void get_next(int i);
+int 
 int Bsearch(int a[],int left,int right,int k)
 {
     
