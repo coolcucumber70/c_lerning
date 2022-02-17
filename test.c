@@ -100,7 +100,7 @@ int jiecheng(int n){
 int delstr(){
     char str [20],ch;
     printf("input chars:\n");
-    puts(str);
+    gets(str);
     printf("del char:\n");
     ch=getchar();
     int i=0,k=0;
@@ -111,18 +111,53 @@ int delstr(){
             k=k+1;
         } 
     }
-     str[k]='0';
+     str[k]='\0';
 
     puts(str);
     return 0;
 }
+//8\以下程序是用选择法对10个整数按升序排序
+int xuanzesort(int n,int a[]){
+    int i=0,j=0,k=0,tmp;
+    for(i=0;i<n;i++){
+        k=i;
+        for(j=i+1;j<n;j++){
+            if(a[j]<=a[k]){
+                k=j;
+            }
+            tmp=a[i];
+            a[i]=a[k];
+            a[k]=tmp;
+        }
+    }
+}
+//9\将一个字符串中的前N个字符复制到一个字符数组中去，不许使用strcpy函数。
+int my_strcopy(int n,char* s){
+    char* str=(char*)malloc(n+1);
+    int i;
+    for(i=0;i<n;i++){
+        str[i]=s[i];
+    }
+    str[i]='\0';
+    printf("str=%s",str);
+}
+//10下面程序的功能是统计文件fname.dat中字符个数，现文件中的内容为： 1234567890
+
+
 int main(){
-    static b[12]={1,2,3,4,5,6,7,8,9,10,11,12};
+    int i;
+    static b[12]={11,22,13,44,15,65,27,38,99,10,101,1};
+    char str[30]="i love you lwh";
+    my_strcopy(5,str);
+
     //int a[5][5]={{1,2,3,4,5},{6,7,8,9,10},{11,12,13,14,15},{16,17,18,19,20},{21,22,23,24,25}};
     //nixuarry(b,12);
     //jiecheng(3);
-    delstr();
-    
+    //delstr();
+    //xuanzesort(12,b);
+    // for(i=0;i<12;i++){
+    //     printf("%d ",b[i]);
+    // }
     //sumtwo(5,a);
     //passwordchange();
     //sort3();
