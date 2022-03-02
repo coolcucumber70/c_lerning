@@ -221,7 +221,7 @@ void heapSort(int arr[], int n)
         __shiftDown(arr, i, 0);
     }
 }
-// 将arr[l...mid]和arr[mid+1...r]进行归并
+//将arr[l...mid]和arr[mid+1...r]进行归并
 
 // void merge(int arr[], int l, int mid, int r)
 // {
@@ -258,7 +258,7 @@ void heapSort(int arr[], int n)
 //         }
 //     }
 // }
-// 递归使用归并排序，对arr[l...r]的范围进行排序
+//递归使用归并排序，对arr[l...r]的范围进行排序
 
 void mergeSort(int arr[], int l, int r)
 {

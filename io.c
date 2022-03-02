@@ -1,5 +1,6 @@
 #include<stdio.h>
 #include<string.h>
+//逐字写入写出
 void test(){
 
 	//写文件
@@ -37,6 +38,7 @@ void test(){
 	}
 #endif
 }
+//逐行写入写出字符串
 void test1(){
 
 	int i;
@@ -77,9 +79,25 @@ void test1(){
 
 	fclose(fp_read);
 }
+//统计字符个数
+void test2(){
+	int num=0;
+	FILE* fp=fopen("./mydata.txt","r");
+	if(!fp){
+		printf("open error\n");
+		return;
+	}
+	while(!feof(fp)){
+		fgetc(fp);
+		num++;
+	}
+	printf("num=%d",num);
+	fclose(fp);
+}
 
 
 int main(){
     //test();
-    test1();
+    //test1();
+	test2();
 }
