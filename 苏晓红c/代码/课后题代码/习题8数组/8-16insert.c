@@ -18,12 +18,17 @@ int main(){
     }
     printf("\n");
     return 0;
-
-    
-
-
-
-
-
-
+}
+void insert(int a[],int n,int x){
+    int i;
+    for(i=n-1;i>=0;i--){
+        if(a[i]>x){
+            a[i+1]=a[i];
+        }
+        else{
+            a[i+1]=x;
+            return;
+        }
+    }
+    a[0]=x;
 }
