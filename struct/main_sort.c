@@ -3,65 +3,66 @@
 #include <time.h>
 #define N 10
 void cal(void (*sort)(int *, int), int a[], int len);
-void cal1(void (*sort1)(int *, int,int), int a[], int len);
+void cal1(void (*sort1)(int *, int, int), int a[], int len);
 void swap(int *a, int *b);
 void InsertSort(int a[], int n);       //直接插入
 void BinaryInsertSort(int R[], int n); //折半插入
 void ShellSort(int arr[], int n);
-void BubbleSort(int arr[], int n);       //冒泡排序
-void QuickSort(int a[], int l, int r);//快速排序
-void my_QuickSort(int a[], int l, int r);//快速排序
-void SelectSort(int arr[], int n);
+void BubbleSort(int arr[], int n);        //冒泡排序1
+void BubbleSort1(int arr[], int n);        //冒泡排序2
+void QuickSort(int a[], int l, int r);    //快速排序
+void my_QuickSort(int a[], int l, int r); //快速排序
+void SelectSort(int arr[], int n);        //选择排序
+void ChangeSort(int arr[], int n);        //交换排序
 void __shiftDown(int arr[], int n, int k);
 void heapSort(int arr[], int n);
 void mergeSort(int arr[], int l, int r);
 void merge(int arr[], int l, int mid, int r);
-int findtheKMin(int a[],int n,int k);
+int findtheKMin(int a[], int n, int k);
 int main()
 {
-     int a[N]={3,1,4,6,2,9,5,8,7,10};
+    int a[N] = {3, 1, 4, 6, 2, 9, 5, 8, 7, 10};
     //  int b[N]={3,1,4,6,2,9,5,8,7,10};
     //  int c[N]={3,1,4,6,2,9,5,8,7,10};
     //  int d[N]={3,1,4,6,2,9,5,8,7,10};
-     //int e[N]={3,1,4,6,2,9,5,8,7,10};
+    // int e[N]={3,1,4,6,2,9,5,8,7,10};
     // cal(BinaryInsertSort, a, 10);
     // cal(heapSort,c,10);
     // cal1(QuickSort,b,10);
     // cal1(mergeSort,d,10);
-    int result=findtheKMin(a,10,3);
-    printf("%d\n",result);
+    cal
+    int result = findtheKMin(a, 10, 3);
+    printf("%d\n", result);
 
-
-    
     return 0;
 }
-void cal(void (*sort)(int *, int), int a[], int len)//函数作为参数
+void cal(void (*sort)(int *, int), int a[], int len) //函数作为参数
 {
     time_t start = clock();
     int i;
     sort(a, len);
-    for(i=0;i<N;i++)
+    for (i = 0; i < N; i++)
     {
-        printf("%d ",a[i]);
+        printf("%d ", a[i]);
     }
     printf("\n");
     time_t finish = clock();
-    double Total_time = (double)(finish - start)* 1000000000 / CLOCKS_PER_SEC;
-    printf("%lf\n", Total_time );
+    double Total_time = (double)(finish - start) * 1000000000 / CLOCKS_PER_SEC;
+    printf("%lf\n", Total_time);
 }
-void cal1(void (*sort1)(int *, int,int), int a[], int len)//函数作为参数
+void cal1(void (*sort1)(int *, int, int), int a[], int len) //函数作为参数
 {
     time_t start = clock();
     int i;
-    sort1(a, 0,len-1);
-    for(i=0;i<N;i++)
+    sort1(a, 0, len - 1);
+    for (i = 0; i < N; i++)
     {
-        printf("%d ",a[i]);
+        printf("%d ", a[i]);
     }
     printf("\n");
     time_t finish = clock();
-    double Total_time = (double)(finish - start)* 1000000000 / CLOCKS_PER_SEC;
-    printf("%lf\n", Total_time );
+    double Total_time = (double)(finish - start) * 1000000000 / CLOCKS_PER_SEC;
+    printf("%lf\n", Total_time);
 }
 void swap(int *a, int *b)
 {
@@ -137,7 +138,7 @@ void BubbleSort(int arr[], int n)
 {
     int temp, i, j;
 
-    for (i = 0; i < n; ++i)
+    for (i = 0; i < n-1; ++i)
     {
         for (j = 0; j < n - i - 1; ++j)
         {
@@ -150,7 +151,7 @@ void BubbleSort(int arr[], int n)
         }
     }
 }
-void  QuickSort(int a[], int l, int r)
+void QuickSort(int a[], int l, int r)
 {
     int tmp = a[l];
     int p = l, q = r;
@@ -173,22 +174,7 @@ void  QuickSort(int a[], int l, int r)
     QuickSort(a, p, l - 1);
     QuickSort(a, l + 1, q);
 }
-void SelectSort(int arr[], int n)
-{
-    int i, j, k = 0;
-    for (i = 0; i < n; i++)
-    {
-        int k = i;
-        for (j = i + 1; j < n; j++)
-        {
-            arr[k] > arr[j];
-            k = j;
-        }
-        int tmp = arr[i];
-        arr[i] = arr[k];
-        arr[k] = tmp;
-    }
-}
+
 // 在原地堆排序中，元素是从数组下标0的位置开始存储的，因此i的左孩子应该为2*i+1
 void __shiftDown(int arr[], int n, int k)
 {
@@ -272,39 +258,86 @@ void mergeSort(int arr[], int l, int r)
         merge(arr, l, mid, r);
     }
 }
-int findtheKMin(int a[],int n,int k)
+int findtheKMin(int a[], int n, int k)
 {
-    int i,j;
-    for(i=0;i<n;i++)
+    int i, j;
+    for (i = 0; i < n; i++)
     {
-        int m=0;
-        for(j=1;j<n-i;j++)
+        int m = 0;
+        for (j = 1; j < n - i; j++)
         {
-            if(a[j]>a[m])
-               m=j;
+            if (a[j] > a[m])
+                m = j;
         }
-        if(i==k-1)
+        if (i == k - 1)
         {
             return a[m];
         }
-        int tmp=a[m];
-        a[m]=a[n-i];
-        a[n-i]=tmp;
+        int tmp = a[m];
+        a[m] = a[n - i];
+        a[n - i] = tmp;
     }
-
 }
-void my_QuickSort(int a[], int l, int r){
-    int tmp=a[l];
-    int low=l,high=r;
-    while(low<high)
+void my_QuickSort(int a[], int l, int r)
+{
+    int tmp = a[l];
+    int low = l, high = r;
+    while (low < high)
     {
-        while(tmp<a[high])high--;
-        a[low]=a[high];
-        while(a[low]<tmp)low++;
-        a[high]=a[low];
+        while (tmp < a[high])
+            high--;
+        a[low] = a[high];
+        while (a[low] < tmp)
+            low++;
+        a[high] = a[low];
     }
-    a[low]=tmp;
-    my_QuickSort(a,l,low-1);
-    my_QuickSort(a,low+1,r);
+    a[low] = tmp;
+    my_QuickSort(a, l, low - 1);
+    my_QuickSort(a, low + 1, r);
 }
-
+void ChangeSort(int arr[], int n)
+{
+    int i, j, tmp;
+    for (i = 0; i < n - 1; i++)
+    {
+        for (j = i + 1; j < n; j++)
+        {
+            if (arr[j] < arr[i])
+            {
+                tmp = arr[i];
+                arr[i] = arr[j];
+                arr[j] = tmp;
+            }
+        }
+    }
+}
+void SelectSort(int arr[], int n)
+{
+    int i, j, k = 0;
+    for (i = 0; i < n - 1; i++)
+    {
+        int k = i;
+        for (j = i + 1; j < n; j++)
+        {
+            arr[k] > arr[j];
+            k = j;
+        }
+        if (i != k)
+        {
+            int tmp = arr[i];
+            arr[i] = arr[k];
+            arr[k] = tmp;
+        }
+    }
+}
+void BubbleSort1(int arr[], int n){
+    int i,j,tmp;
+    for(i=0;i<n-1;i++){
+        for(j=n-1;j>i;j--){
+            arr[j]>arr[j-1];
+            tmp=arr[j-1];
+            arr[j-1]=arr[j];
+            arr[j]=tmp;
+        }
+    }
+}

@@ -18,9 +18,10 @@ unsigned short ReadNumber(int num[]){
     return i;
 
 }
+//冒泡排序
 void SortNumberDescending(int num[], unsigned short n){
     int i,j,tmp;
-    for(i=0;i<n;i++){
+    for(i=0;i<n-1;i++){
         for(j=0;j<n-i-1;j++){
             if(num[j]<num[j+1]){
                 tmp=num[j];
@@ -30,6 +31,20 @@ void SortNumberDescending(int num[], unsigned short n){
         }
     }
 }
+//交换排序
+void changeSortNumberDescending(int num[], unsigned short n){
+    int i,j,tmp;
+    for(i=0;i<n-1;i++){
+        for(j=i;j<n;j++){
+            if(num[j]>num[i]){
+                tmp=num[j];
+                num[j]=num[j+1];
+                num[j+1]=tmp;
+            }
+        }
+    }
+}
+
 void SummingAveraging(int num[], unsigned short n, int *pSum, float *pAver){
     int i;
     *pSum=0;

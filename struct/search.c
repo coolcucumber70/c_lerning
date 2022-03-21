@@ -1,15 +1,14 @@
 #include<stdio.h>
-void get_next(int i);
-int 
 int Bsearch(int a[],int left,int right,int k)
-{
-    
-    while(left<=right)
+{   
+    int pos=-1,find=0;
+    while(!find&&left<=right)
     {
     int mid=(left+right)/2;
     if(a[mid]==k)
     {
-      return mid;
+      pos=mid;
+      find=1;
     }
     else if(a[mid]>k){
         right=mid-1;
@@ -18,7 +17,7 @@ int Bsearch(int a[],int left,int right,int k)
         left=mid+1;
     }
     }
-    return -1;
+    return pos;
 }
 int Bsearch_dg(int a[],int left,int right,int k)
 {
