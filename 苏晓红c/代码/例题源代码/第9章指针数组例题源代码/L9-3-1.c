@@ -10,3 +10,4 @@ int main()
 	printf("c is %c, &c is %p, pc is %p, *pc is %c\n", c, &c, pc, *pc);
 	return 0;
 }
+

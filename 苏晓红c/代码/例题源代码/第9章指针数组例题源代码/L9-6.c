@@ -10,6 +10,7 @@ int main()
 	printf("After swap: a = %d, b = %d\n", a, b);/* 验证a,b是否互换 */
 	return 0;
 }
+
 /* 函数功能：交换两个整型数的值 */
 void  Swap(int *x, int *y)                
 {
